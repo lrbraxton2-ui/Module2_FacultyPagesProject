@@ -15,18 +15,21 @@ body {
   background-color: #ffffff;
   min-height: 100vh;
   padding: 0 20px 30px;
+  border-style: solid;
+  border-width: 5px;
 }
 
 /* -------------------- */
 /* HEADER               */
 /* -------------------- */
 .site-header {
-  padding-top: 20px;
   border-bottom: 1px solid #d6d6d6;
+  padding-top: 10px;
+  width: 100%;
 }
 
 .header-top {
-  margin-bottom: 20px;
+  border: 3px solid #d29f2a;
 }
 
 .faculty-label {
@@ -159,7 +162,7 @@ body {
 .action-btn {
   display: inline-block;
   padding: 10px 16px;
-  background-color: #007bff;
+  background-color: #005fc4;
   color: #ffffff;
   text-decoration: none;
   border-radius: 6px;
@@ -209,7 +212,7 @@ body {
 .course-btn {
   display: inline-block;
   padding: 10px 18px;
-  background-color: #007bff;
+  background-color: #005fc4;
   color: #ffffff;
   text-decoration: none;
   border-radius: 6px;
@@ -348,7 +351,7 @@ body {
   padding: 12px 20px;
   border: none;
   border-radius: 6px;
-  background-color: #007bff;
+  background-color: #005fc4;
   color: #ffffff;
   font-size: 1rem;
   cursor: pointer;
@@ -448,4 +451,18 @@ body {
     width: 100%;
     max-width: 220px;
   }
+}
+
+.delete-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #b00020;
+  color: #ffffff;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.delete-btn:hover {
+  opacity: 0.85;
 }
