@@ -73,3 +73,118 @@ The database table is created automatically on first run.
 - If no faculty record exists in the database, the API returns default placeholder data
 - Static assets are served from the `static/` folder
 - Place profile images in `static/images/` for Flask to serve them correctly
+
+## Setup Instructions
+
+### Prerequisites
+- Python 3.8+
+- MySQL 8.0
+
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd <repository-folder>
+   ```
+2. Install Python dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+### Environment Variables
+Create a `.env` file in the project root with the following variables:
+```
+MYSQL_HOST=localhost
+MYSQL_USER=root
+MYSQL_PASSWORD=yourpassword
+MYSQL_DATABASE=faculty_portal
+```
+
+| Variable         | Description                        |
+|------------------|------------------------------------|
+| `MYSQL_HOST`     | Hostname of your MySQL server      |
+| `MYSQL_USER`     | MySQL username                     |
+| `MYSQL_PASSWORD` | MySQL password                     |
+| `MYSQL_DATABASE` | Name of the database to connect to |
+
+### Running Locally
+Start the Flask development server:
+```bash
+python app.py
+```
+
+Once running, open your browser and navigate to:
+```
+http://localhost:5000
+```
+
+---
+
+## Technologies Used
+
+| Technology                    | Version  | Purpose                                      |
+|-------------------------------|----------|----------------------------------------------|
+| Python                        | 3.8+     | Backend runtime                              |
+| Flask                         | 2.3.3    | Web framework and API routing                |
+| Flask-CORS                    | 4.0.0    | Cross-origin resource sharing support        |
+| MySQL                         | 8.0      | Relational database for faculty data storage |
+| mysql-connector-python        | 8.0.33   | Python driver for MySQL connectivity         |
+| HTML5 / CSS3                  | —        | Frontend markup and styling                  |
+| JavaScript (Fetch API)        | —        | Async API calls from the browser             |
+| Bootstrap                     | 5.3.8    | Responsive UI components and layout          |
+
+---
+
+## How to Test CRUD Functionality
+
+### CREATE — Add Faculty Data
+1. Navigate to `http://localhost:5000/edit`
+2. Fill out all fields in the faculty edit form
+3. Click **"Save Changes"**
+4. Return to the home page (`http://localhost:5000`) and verify the new data appears
+
+**API equivalent:**
+```http
+POST /api/faculty
+Content-Type: application/json
+
+{
+  "name": "Dr. Jane Smith",
+  "title": "Professor",
+  "department": "Computer Science",
+  ...
+}
+```
+
+### READ — View Faculty Data
+1. Visit the home page at `http://localhost:5000`
+2. Faculty data is dynamically loaded from the MySQL database via the API
+3. If no record exists yet, default placeholder data is displayed
+
+**API equivalent:**
+```http
+GET /api/faculty
+```
+Returns the current faculty record as a JSON object.
+
+### UPDATE — Modify Existing Faculty Data
+1. Navigate to `http://localhost:5000/edit`
+2. The form will pre-populate with the current faculty data from the database
+3. Modify any fields as needed
+4. Click **"Save Changes"**
+5. Return to the home page (`http://localhost:5000`) and verify the updated data appears
+
+**API equivalent:**
+```http
+POST /api/faculty
+Content-Type: application/json
+
+{
+  "name": "Dr. Jane Smith",
+  "title": "Associate Professor",
+  ...
+}
+```
+
+### DELETE — Remove Faculty Data
+> **Note:** Delete functionality is not yet implemented. This is planned as an optional future enhancement. A `DELETE /api/faculty/<id>` endpoint can be added in a future iteration to support record removal.
