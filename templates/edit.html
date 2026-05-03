@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Faculty Edit Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="/static/style.css" />
+  <link rel="stylesheet" href="/static/spc.css" />
+  <style>
+    .status-message {
+      padding: 12px 16px;
+      border-radius: 6px;
+      margin-top: 16px;
+      font-size: 0.95rem;
+      display: none;
+    }
+    .status-message.success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .status-message.error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .faculty-selector-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 14px 20px;
+      background-color: #f0f4ff;
+      border: 1px solid #c8d8f0;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+    .faculty-selector-bar label {
+      font-weight: bold;
+      margin: 0;
+      white-space: nowrap;
+    }
+    .faculty-selector-bar select {
+      flex: 1;
+      min-width: 200px;
+      padding: 8px 10px;
+      border: 1px solid #a9a9a9;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    .faculty-id-badge {
+      font-size: 0.85rem;
+      color: #555;
+      white-space: nowrap;
+    }
+    .faculty-id-badge span {
+      font-weight: bold;
+      color: #005fc4;
+    }
+    .new-record-btn {
+      padding: 8px 14px;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .new-record-btn:hover { opacity: 0.9; }
+    .delete-btn {
+      align-self: flex-end;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      background-color: #dc3545;
+      color: #ffffff;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    .delete-btn:hover { opacity: 0.9; }
+    .form-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+
+    <header class="site-header">
+    <div class="d-flex flex-wrap justify-content-center py-2 mb-4 " id="header">
+      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+        <svg class="bi me-2" width="40" height="32" aria-hidden="true"><use xlink:href="#bootstrap"></use></svg>
+        <span class="fs-4"><img src="" class="header-logo" alt=""></span> 
+      </a> 
+    </div>
+
+      <div class="top-bar">
+      <div></div>
+
+      <nav class="main-nav">
+        <a href="/">Home</a>
+        <a href="#">Admin</a>
+        <a href="/edit" class="active">Edit</a>
+      </nav>
+
+      <div></div>
+     </div>
+    </header>
+
+<main class="edit-page">
+
+  <!-- FACULTY SELECTOR BAR -->
+  <div class="faculty-selector-bar">
+    <label for="faculty-select">Editing:</label>
+    <select id="faculty-select">
+      <option value="">— Loading faculty list… —</option>
+    </select>
+    <span class="faculty-id-badge">ID: <span id="current-faculty-id">—</span></span>
+    <button type="button" class="new-record-btn" id="new-record-btn">+ New Faculty</button>
+  </div>
+
+  <div class="edit-layout">
+
+    <!-- LEFT SIDE (FORM + PROFILE PIC) -->
+    <section class="form-panel">
+      <form class="faculty-form" id="faculty-form">
+
+        <!-- PROFILE IMAGE MOVED HERE -->
+        <section class="profile-image-editor">
+          <h2>Profile Picture</h2>
+
+          <div class="image-preview-box">
+            <span>Profile Image Preview</span>
+          </div>
+
+          <label for="profile-image">Upload / Change Profile Picture</label>
+          <input
+            type="file"
+            id="profile-image"
+            name="profile-image"
+            accept="image/*"
+          />
+        </section>
+
+        <!-- NAME -->
+        <div class="row">
+          <div class="field full-width">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" />
+          </div>
+
+          <div class="field">
+            <label for="campus">Campus</label>
+            <input type="text" id="campus" name="campus" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="department">Department</label>
+            <input type="text" id="department" name="department" />
+          </div>
+
+          <div class="field">
+            <label for="office-location">Office Location</label>
+            <input type="text" id="office-location" name="office-location" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" />
+          </div>
+
+          <div class="field">
+            <label for="office-phone">Office Phone</label>
+            <input type="text" id="office-phone" name="office-phone" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field full-width">
+            <label for="office-hours">Office Hours</label>
+            <input type="text" id="office-hours" name="office-hours" />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="save-btn" id="save-btn">Save Changes</button>
+          <button type="button" class="delete-btn" id="delete-btn" style="display:none;">Delete Faculty</button>
+        </div>
+
+        <div id="status-message" class="status-message" role="alert"></div>
+      </form>
+    </section>
+
+    <!-- RIGHT SIDE (TEXT AREAS ONLY) -->
+    <section class="content-editor">
+      <section class="editor-section">
+        <h2>About Me</h2>
+        <textarea id="about-me" rows="6" placeholder="Enter Text"></textarea>
+      </section>
+
+      <section class="editor-section">
+        <h2>Education</h2>
+        <textarea id="education" rows="6" placeholder="Enter Text"></textarea>
+      </section>
+
+      <section class="editor-section">
+        <h2>Research / Publications</h2>
+        <textarea id="research" rows="6" placeholder="Enter Text"></textarea>
+      </section>
+     
+      <fieldset class="checkbox-group courses-box">
+       <legend>Courses Taught:</legend>
+       
+       <div class="courses-header">  
+         <span>Select All That Apply</span>   	
+         <span class="dropdown-arrow">▼</span>
+       </div>
+
+       <div class="courses-grid">
+         <label><input type="checkbox" /> COP 1000</label>
+         <label><input type="checkbox" /> COP 1044</label>
+
+         <label><input type="checkbox" /> COP 3505</label>
+         <label><input type="checkbox" /> COP 4504</label>
+
+         <label><input type="checkbox" /> ISM 3212</label>
+         <label><input type="checkbox" /> ISM 3232</label>
+
+         <label><input type="checkbox" /> ISM 4914</label>
+         <label><input type="checkbox" /> ISM 4915</label>
+      </div>
+    </fieldset>
+    </section>
+
+  </div>
+</main>
+
+  </div>
+
+  <script>
+    console.log('[edit.html] Script loaded — initializing CRUD edit page...');
+
+    // Track the ID of the record currently loaded in the form.
+    // null means we are in "create new" mode.
+    let currentFacultyId = null;
+
+    // -------------------------------------------------------------------------
+    // Populate the faculty selector dropdown
+    // -------------------------------------------------------------------------
+    async function loadFacultyList(selectId) {
+      try {
+        const res = await fetch('/api/faculty/list');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const list = await res.json();
+
+        const sel = document.getElementById('faculty-select');
+        sel.innerHTML = '';
+
+        if (list.length === 0) {
+          sel.innerHTML = '<option value="">— No faculty records yet —</option>';
+          return;
+        }
+
+        list.forEach(f => {
+          const opt = document.createElement('option');
+          opt.value = f.id;
+          opt.textContent = `${f.name} (ID ${f.id})`;
+          sel.appendChild(opt);
+        });
+
+        // Select the requested ID, or default to the first option
+        if (selectId && list.find(f => f.id == selectId)) {
+          sel.value = selectId;
+        } else {
+          sel.value = list[0].id;
+        }
+
+        await loadFacultyData(sel.value);
+      } catch (err) {
+        console.error('Failed to load faculty list:', err);
+        showStatus('Could not load faculty list.', 'error');
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // Load a specific faculty record into the form
+    // -------------------------------------------------------------------------
+    async function loadFacultyData(id) {
+      if (!id) {
+        clearForm();
+        return;
+      }
+      try {
+        const res = await fetch(`/api/faculty?id=${id}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+        populateForm(data);
+      } catch (err) {
+        console.error('Failed to load faculty data:', err);
+        showStatus('Failed to load faculty record.', 'error');
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // Fill form fields from a data object
+    // -------------------------------------------------------------------------
+    function populateForm(data) {
+      currentFacultyId = data.id || null;
+      document.getElementById('current-faculty-id').textContent = currentFacultyId ?? '—';
+      document.getElementById('name').value            = data.name            || '';
+      document.getElementById('title').value           = data.title           || '';
+      document.getElementById('campus').value          = data.campus_location || '';
+      document.getElementById('department').value      = data.department      || '';
+      document.getElementById('office-location').value = data.office_location || '';
+      document.getElementById('email').value           = data.email           || '';
+      document.getElementById('office-phone').value    = data.phone           || '';
+      document.getElementById('office-hours').value    = data.office_schedule || '';
+      document.getElementById('about-me').value        = data.about_me        || '';
+      document.getElementById('education').value       = data.education       || '';
+      document.getElementById('research').value        = data.research        || '';
+
+      // Show Delete button only when editing an existing record
+      document.getElementById('delete-btn').style.display = currentFacultyId ? 'inline-block' : 'none';
+      document.getElementById('save-btn').textContent = currentFacultyId ? 'Save Changes' : 'Create Faculty';
+    }
+
+    // -------------------------------------------------------------------------
+    // Clear the form for a new record
+    // -------------------------------------------------------------------------
+    function clearForm() {
+      currentFacultyId = null;
+      document.getElementById('current-faculty-id').textContent = '—';
+      document.getElementById('faculty-select').value = '';
+      ['name','title','campus','department','office-location','email',
+       'office-phone','office-hours','about-me','education','research']
+        .forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.value = '';
+        });
+      document.getElementById('delete-btn').style.display = 'none';
+      document.getElementById('save-btn').textContent = 'Create Faculty';
+    }
+
+    // -------------------------------------------------------------------------
+    // Faculty selector change
+    // -------------------------------------------------------------------------
+    document.getElementById('faculty-select').addEventListener('change', async function () {
+      if (this.value) {
+        await loadFacultyData(this.value);
+      }
+    });
+
+    // -------------------------------------------------------------------------
+    // "New Faculty" button — blank the form for a fresh insert
+    // -------------------------------------------------------------------------
+    document.getElementById('new-record-btn').addEventListener('click', function () {
+      clearForm();
+      showStatus('Form cleared — fill in details and click "Create Faculty".', 'success');
+    });
+
+    // -------------------------------------------------------------------------
+    // Form submit — PUT to update existing, POST to create new
+    // -------------------------------------------------------------------------
+    const facultyForm = document.getElementById('faculty-form');
+    facultyForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const payload = {
+        name:            document.getElementById('name').value.trim(),
+        title:           document.getElementById('title').value.trim(),
+        campus_location: document.getElementById('campus').value.trim(),
+        department:      document.getElementById('department').value.trim(),
+        office_location: document.getElementById('office-location').value.trim(),
+        email:           document.getElementById('email').value.trim(),
+        phone:           document.getElementById('office-phone').value.trim(),
+        office_schedule: document.getElementById('office-hours').value.trim(),
+        about_me:        document.getElementById('about-me').value.trim(),
+        education:       document.getElementById('education').value.trim(),
+        research:        document.getElementById('research').value.trim(),
+      };
+
+      try {
+        let response, result;
+
+        if (currentFacultyId) {
+          // UPDATE existing record
+          console.log(`[edit.html] PUT /api/faculty/${currentFacultyId}`);
+          response = await fetch(`/api/faculty/${currentFacultyId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+        } else {
+          // CREATE new record
+          console.log('[edit.html] POST /api/faculty');
+          response = await fetch('/api/faculty', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+        }
+
+        result = await response.json();
+        if (!response.ok || result.error) throw new Error(result.error || 'Save failed');
+
+        // Refresh the selector list and re-select the saved record
+        await loadFacultyList(result.id);
+        showStatus(
+          currentFacultyId
+            ? 'Faculty record updated successfully!'
+            : `New faculty record created (ID ${result.id})!`,
+          'success'
+        );
+      } catch (err) {
+        console.error('Failed to save faculty data:', err);
+        showStatus(`Error saving data: ${err.message}`, 'error');
+      }
+    });
+
+    // -------------------------------------------------------------------------
+    // Delete button
+    // -------------------------------------------------------------------------
+    document.getElementById('delete-btn').addEventListener('click', async function () {
+      if (!currentFacultyId) return;
+      const name = document.getElementById('name').value || `ID ${currentFacultyId}`;
+      if (!confirm(`Delete faculty record for "${name}"? This cannot be undone.`)) return;
+
+      try {
+        const response = await fetch(`/api/faculty/${currentFacultyId}`, { method: 'DELETE' });
+        const result = await response.json();
+        if (!response.ok || result.error) throw new Error(result.error || 'Delete failed');
+
+        showStatus(`Faculty record deleted successfully.`, 'success');
+        // Reload the list; it will auto-select the first remaining record
+        await loadFacultyList(null);
+      } catch (err) {
+        console.error('Failed to delete faculty record:', err);
+        showStatus(`Error deleting record: ${err.message}`, 'error');
+      }
+    });
+
+    // -------------------------------------------------------------------------
+    // Utility: show a timed status banner
+    // -------------------------------------------------------------------------
+    function showStatus(message, type) {
+      const el = document.getElementById('status-message');
+      el.textContent = message;
+      el.className = `status-message ${type}`;
+      el.style.display = 'block';
+      setTimeout(() => { el.style.display = 'none'; }, 5000);
+    }
+
+    // -------------------------------------------------------------------------
+    // Boot: load the faculty list (selects the latest record by default)
+    // -------------------------------------------------------------------------
+    loadFacultyList(null);
+  </script>
+</body>
+</html>
